@@ -1,6 +1,7 @@
 --up, right, forward, rotation
 t = dofile("turtleMovement.lua")
 --r = dofile("recipes.lua")
+SERVER = 5
 
 local i = {}
 
@@ -31,7 +32,7 @@ i.get = function(ing, num, slot)
   if (not ing) then
     print("ingredient name needed")
   end
-  message = "getting " .. ing
+  message = "Getting " .. ing
   rednet.send(5, message)
   --print("getting", ing)
   t.moveTo(i.getCoordinates(ing))
@@ -49,11 +50,9 @@ i.getCoordinates = function(name)
   for j=1,table.getn(i.List) do
     if (i.List[j] == name) then
       index = j
-      --print("index is: ", index)
       c = -8 + (index % (columns))
       if (c == -8) then c = 7 end
       r = math.floor((index - 1) / columns)
-      --print("returning:", r, c)
       return {r, c, 2, 0}
     end
   end
@@ -64,7 +63,7 @@ end
 
 i.fillContainer = function(liquid, slot)
   i.get("bucket", 1, slot)
-  print("getting", liquid)
+  rednet.send(SERVER, "Getting " .. liquid)
   t.moveTo(i[liquid])
   turtle.select(slot)
   if (liquid == "water") then
@@ -80,7 +79,7 @@ i.bakeInFurnace = function(slot, time, blast)
   t.moveTo(i[blast .. "FurnaceInput"])
   turtle.drop()
   t.moveTo(i[blast .. "FurnaceOutput"])
-  print("baking for", time, "seconds")
+  rednet.send(SERVER, "Baking for " .. time .. " Seconds")
   os.sleep(time)
   turtle.select(slot)
   turtle.suckDown()

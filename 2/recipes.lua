@@ -2,6 +2,7 @@ t = dofile("turtleMovement.lua")
 i = dofile("ingredients.lua")
 
 local r = {}
+r.SERVER = 5
 
 r.recipeList = {{"Hamburger", 'hamburger'}, {"Cheeseburger", 'cheeseburger'}, {"French Fries", 'frenchFries'},
  {"Sweet Potato Fries", 'sweetPotatoFries'}, {"Potato Chips", 'potatoChips'}, {"Pizza", 'pizza'}, {"Cheese Pizza", 'cheesePizza'},
@@ -26,14 +27,14 @@ r.bakedSweetPotato = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making baked sweet potato")
+  rednet.send(r.SERVER, "Making Baked Sweet Potato")
   i.get("sweet potato", num, 1)
   i.bakeInFurnace(1, num * 10)
   t.deliver()
 end
 
 r.bread = function(num, slot, ingOrMain)
-  print("making bread")
+  rednet.send(r.SERVER, "Making Bredd")
   slot = slot or 1
   i.get("wheat", num, 10)
   i.get("wheat", num, 11)
@@ -46,7 +47,7 @@ r.butter = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making butter")
+  rednet.send(r.SERVER, "Making Butter")
   r.salt(num, 10, "ing")
   i.get("cooking pot", 1, 5)
   i.get("food press", 1, 6)
@@ -64,7 +65,7 @@ r.caramel = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making caramel")
+  rednet.send(r.SERVER, "Making Caramel")
   r.sugar(num)
   i.bakeInFurnace(1, 10*num)
   if (ingOrMain == "main") then
@@ -76,6 +77,7 @@ r.cheese = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   subOrIng = subOrIng or "main"
+  rednet.send(r.SERVER, "Making Cheese")
   --make salt
     --check for water bottles
       --if there are no water bottles, make more
@@ -101,7 +103,7 @@ r.cheeseburger = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making cheeseburger")
+  rednet.send(r.SERVER, "Making Cheeseburger")
   r.cheese(num, 1, "ing")
   t.dropTempChest()
   r.bread(num, 1, "ing")
@@ -116,7 +118,7 @@ r.cheesePizza = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making cheese pizza")
+  rednet.send(r.SERVER, "Making Cheese Pizza")
   r.dough(num, 2, "ing")
   t.dropTempChest(2)
   r.cheese(num * 2, 2, "ing")
@@ -134,8 +136,8 @@ end
 r.chocolate = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
-  ingOrMain = ingOrMain or "ing"
-  print("making chocolate")
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Chocolate")
   r.butter(num, 2, "ing")
   i.get("cooking pot", 1, 5)
   i.get("cocoa beans", num)
@@ -147,7 +149,7 @@ r.dough = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   subOrIng = subOrIng or "ing"
-  print("making dough")
+  rednet.send(r.SERVER, "Making Dough")
   for j=1,num do
     r.flour(1, 10)
     i.fillContainer("water", 7)
@@ -165,6 +167,7 @@ r.doughnut = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Doughnut")
   r.sugar(num, 1)
   t.dropTempChest(1)
   r.flour(num * 2, 5, "ing")
@@ -181,7 +184,7 @@ r.doughnut = function(num, slot, ingOrMain)
 end
 
 r.figgyPudding = function(num, slot)
-  print("making figgy pudding")
+  rednet.send(r.SERVER, "Making Figgy Pudding")
   num = num or 1
   slot = slot or 1
   for j=1,num do
@@ -208,7 +211,7 @@ r.flour = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making flour")
+  rednet.send(r.SERVER, "Making Flour")
   i.get("wheat", num, 10)
   i.get("wheat", num, 11)
   r.cookFood(num, slot)
@@ -221,7 +224,7 @@ r.frenchFries = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making french fries")
+  rednet.send(r.SERVER, "Making French Fries")
   r.oliveOil(num, 1, "ing")
   t.dropTempChest(1)
   r.salt(num, 9, "ing")
@@ -234,7 +237,7 @@ end
 
 r.hamburger = function(num, slot)
   slot = slot or 1
-  print("making hamburger")
+  rednet.send(r.SERVER, "Making Hamburger")
   r.bread(num, 6, "ing")
   i.get("raw beef", num, 10)
   i.get("pan", 1, 11)
@@ -246,6 +249,7 @@ r.molasses = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or 1
+  rednet.send(r.SERVER, "Making Molasses")
   i.get("sugar cane", num)
   i.bakeInFurnace(slot, 10 * num)
   t.deliver(ingOrMain)
@@ -255,7 +259,7 @@ r.noodle = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making noodle")
+  rednet.send(r.SERVER, "Making Noodles")
   r.salt(num)
   t.dropTempChest()
   r.flour(num, 10)
@@ -275,7 +279,7 @@ r.oliveOil = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making olive oil")
+  rednet.send(r.SERVER, "Making Olive Oil")
   i.get("olive", num, 1)
   i.get("olive", num, 2)
   i.get("food press", 1, 5)
@@ -291,7 +295,7 @@ r.pizza = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making pizza")
+  rednet.send(r.SERVER, "Making Pizza")
   r.dough(num, 2, "ing")
   t.dropTempChest(2)
   r.cheese(num, 2, "ing")
@@ -307,7 +311,7 @@ r.potatoChips = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  rednet.send(5, "Making Potato Chips")
+  rednet.send(r.SERVER, "Making Potato Chips")
   r.salt(num, 1, "ing")
   t.dropTempChest()
   r.oliveOil(num, 10, "ing")
@@ -325,7 +329,7 @@ r.salt = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making salt")
+  rednet.send(r.SERVER, "Making Salt")
   i.get("water bottle", num, 1)
   i.bakeInFurnace(10, 20 * num, "blast")
   turtle.transferTo(slot)
@@ -333,7 +337,7 @@ r.salt = function(num, slot, ingOrMain)
 end
 
 r.sugar = function(num, slot, ingOrMain)
-  print("making sugar")
+  rednet.send(r.SERVER, "Making Sugar")
   slot = slot or 1
   i.get("sugar cane", num, 1)
   r.cookFood(num, slot)
@@ -344,7 +348,7 @@ end
 
 r.supremePizza = function(num, slot)
   slot = slot or 1
-  print("making supreme pizza")
+  rednet.send(r.SERVER, "Making Supreme Pizza")
   r.dough(num, 2, "ing")
   r.cheese(num, 2, "ing")
   i.get("tomato", num, 3)
@@ -361,7 +365,7 @@ r.sweetPotatoFries = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "main"
-  print("making sweet potato fries")
+  rednet.send(r.SERVER, "Making Sweet Potato Fries")
   r.oliveOil(num, 1, "ing")
   t.dropTempChest(1)
   r.salt(num, 9, "ing")
@@ -376,7 +380,7 @@ r.tofu = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making tofu")
+  rednet.send(r.SERVER, "Making Tofu")
   i.get("soybeans", num, 9)
   i.get("cooking pot", 1, 5)
   for j=1,num do
@@ -393,7 +397,7 @@ r.tortilla = function(num, slot, ingOrMain)
   num = math.floor((num + 1) / 2) or 1
   slot = slot or 1
   ingOrMain = ingOrMain or "ing"
-  print("making tortilla")
+  rednet.send(r.SERVER, "Making Tortilla")
   r.flour(num, 5, "ing")
   i.get("pan", 1, 6)
   for j=1,num do
@@ -407,7 +411,8 @@ end
 
 r.turtleSoup = function(num, slot, ingOrMain)
   slot = slot or 1
-  print("making turtle soup")
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Turtle Soup")
   for j=1,num do
     i.fillContainer("water", 7)
     i.get("turtle", 1, 6)
@@ -417,12 +422,12 @@ r.turtleSoup = function(num, slot, ingOrMain)
   end
   t.emptyExtras()
   t.pickUp()
-  t.deliver(ingOrMain)
+  t.deliver(ingOrMain, num)
 end
 
 r.whippingCream = function(num, slot)
   slot = slot or 1
-  print("making whipping cream")
+  rednet.send(r.SERVER, "Making Whipping Cream")
   for j=1,num do
     r.sugar(1, 7)
     i.fillContainer("milk", 6)

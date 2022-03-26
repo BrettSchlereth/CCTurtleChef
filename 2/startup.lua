@@ -38,7 +38,8 @@ function findfunction(x)
 end
 
 rednet.open("left") --enable modem on the right side of the PC
-
+turtle.refuel()
+print("fuel level", turtle.getFuelLevel())
 for j=1,1000 do
   id,order = rednet.receive() --wait until a mesage is received
   if id == 5 then

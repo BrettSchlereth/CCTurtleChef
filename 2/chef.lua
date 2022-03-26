@@ -3,6 +3,7 @@ t = dofile("turtleMovement.lua")
 r = dofile("recipes.lua")
 i = dofile("ingredients.lua")
 
+
 local c = {}
 
 c.findfunction = function(x)
@@ -53,12 +54,5 @@ end
 turtle.refuel()
 c.loadLocation()
 t.goHome()
---printMenu()
---x=r.recipeList[1][2]
---print(arg[1])
---r.bakedSweetPotato(1)
---orderFood("2 1")
---print(assert(findfunction(x))(1))
---t.pickUp()
 
 return c
