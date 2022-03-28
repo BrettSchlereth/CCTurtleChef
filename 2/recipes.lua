@@ -4,10 +4,10 @@ i = dofile("ingredients.lua")
 local r = {}
 r.SERVER = 5
 
-r.recipeList = {{"Hamburger", 'hamburger'}, {"Cheeseburger", 'cheeseburger'}, {"French Fries", 'frenchFries'},
+r.recipeList = {{"Fried Egg", 'friedEgg'}, {"Egg Sandwich", 'eggSandwich'}, {"Pancakes x3", 'pancakes'}, {"Grilled Cheese", 'grilledCheese'}, {"Hamburger", 'hamburger'}, {"Cheeseburger", 'cheeseburger'}, {"French Fries", 'frenchFries'},
  {"Sweet Potato Fries", 'sweetPotatoFries'}, {"Potato Chips", 'potatoChips'}, {"Pizza", 'pizza'}, {"Cheese Pizza", 'cheesePizza'},
-{"Supreme Pizza", 'supremePizza'}, {"Bredd", 'bread'}, {"Baked Sweet Potato", 'bakedSweetPotato'},
- {"Figgy Pudding", 'figgyPudding'}, {"Doughnut", 'doughnut'}, {"Chocolate", 'chocolate'}, {"Turtle Soup", 'turtleSoup'}}
+{"Supreme Pizza", 'supremePizza'}, {"Chicken and Dumplings", 'chickenAndDumplings'}, {"Bredd", 'bread'}, {"Cucumber Salad", 'cucumberSalad'}, {"Baked Sweet Potato", 'bakedSweetPotato'},
+ {"Figgy Pudding", 'figgyPudding'}, {"Chocolate Ice Cream", 'chocolateIceCream'}, {"Doughnut", 'doughnut'}, {"Chocolate", 'chocolate'}, {"Turtle Soup", 'turtleSoup'}}
 
 
 r.setCoords = function(coordinates)
@@ -58,6 +58,18 @@ r.butter = function(num, slot, ingOrMain)
   end
   t.emptyExtras(1 + slot)
   t.pickUp({slot})
+  t.deliver(ingOrMain)
+end
+
+r.bucket = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "ing"
+  rednet.send(r.SERVER, "Making Bucket")
+  i.get("iron", num, 5)
+  i.get("iron", num, 7)
+  i.get("iron", num, 10)
+  r.cookFood(num)
   t.deliver(ingOrMain)
 end
 
@@ -133,6 +145,20 @@ r.cheesePizza = function(num, slot, ingOrMain)
   t.deliver()
 end
 
+r.chickenAndDumplings = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Chicken and Dumplings")
+  r.dough(num, 5, "ing")
+  i.get("chile pepper", num, 6)
+  i.get("raw chicken", num, 9)
+  i.get("cooking pot", 1, 10)
+  t.pickUp({5})
+  r.cookFood(num, 1)
+  t.deliver()
+end
+
 r.chocolate = function(num, slot, ingOrMain)
   num = num or 1
   slot = slot or 1
@@ -143,6 +169,38 @@ r.chocolate = function(num, slot, ingOrMain)
   i.get("cocoa beans", num)
   r.cookFood(num, slot)
   t.deliver(ingOrMain)
+end
+
+--needs fixing!
+r.chocolateIceCream = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Chocolate Ice Cream")
+  r.chocolate(math.floor(num / 8) + 1, 1, "ing")
+  t.dropTempChest()
+  t.emptyExtras()
+  r.milkBottle(1, 1, "ing")
+  t.dropTempChest()
+  r.sugar(num, 7, "ing")
+  i.get("egg", num, 2)
+  i.get("cooking pot", 1, 10)
+  t.pickUp({5, 6})
+  r.cookFood(num, slot)
+  t.deliver()
+end
+
+r.cucumberSalad = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  subOrIng = subOrIng or "main"
+  rednet.send(r.SERVER, "Making Cucumber Salad")
+  i.get("cucumber", num, 6)
+  i.get("lettuce", num, 9)
+  i.get("spinach", num, 10)
+  i.get("bowl", num, 5)
+  r.cookFood(num)
+  t.deliver()
 end
 
 r.dough = function(num, slot, ingOrMain)
@@ -181,6 +239,61 @@ r.doughnut = function(num, slot, ingOrMain)
     if (ingOrMain == "ing" or num > 1) then t.dropTempChest() end
   end
   t.deliver()
+end
+
+r.eggSandwich = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Egg Sandwich")
+  r.friedEgg(num * 2, 1, "ing")
+  t.dropTempChest()
+  r.bread(num, 1, "ing")
+  t.pickUp({2})
+  turtle.select(2)
+  turtle.transferTo(5, num)
+  turtle.select(1)
+  r.cookFood(num)
+  t.deliver()
+end
+
+r.glass = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "ing"
+  rednet.send(r.SERVER, "Making Glass")
+  i.get("sand", num)
+  i.bakeInFurnace(slot, num * 10)
+  t.deliver(ingOrMain)
+end
+
+r.glassBottle = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Glass Bottle")
+  r.glass(num * 3, 1, "ing")
+  print("finished making glass")
+  turtle.select(1)
+  turtle.transferTo(6, num)
+  turtle.select(1)
+  turtle.transferTo(3, num)
+  r.cookFood(num)
+  t.deliver(ingOrMain)
+end
+
+r.grilledCheese = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Grilled Cheese")
+  r.cheese(num, 1, "ing")
+  t.dropTempChest()
+  r.bread(num, 5, "ing")
+  t.pickUp({6})
+  i.get("pan", 1, 9)
+  r.cookFood(num)
+  t.deliver(ingOrMain)
 end
 
 r.figgyPudding = function(num, slot)
@@ -235,7 +348,17 @@ r.frenchFries = function(num, slot, ingOrMain)
   t.deliver(ingOrMain)
 end
 
-r.hamburger = function(num, slot)
+r.friedEgg = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Fried Egg")
+  i.get("egg", num)
+  i.bakeInFurnace(1, 10 * num)
+  t.deliver(ingOrMain)
+end
+
+r.hamburger = function(num, slot, ingOrMain)
   slot = slot or 1
   rednet.send(r.SERVER, "Making Hamburger")
   r.bread(num, 6, "ing")
@@ -243,6 +366,29 @@ r.hamburger = function(num, slot)
   i.get("pan", 1, 11)
   r.cookFood(num, slot)
   t.deliver()
+end
+
+r.milkBottle = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Milk Bottle")
+  r.glass(num * 3, 1, "ing")
+  turtle.select(1)
+  turtle.transferTo(5, num)
+  turtle.select(1)
+  turtle.transferTo(7, num)
+  turtle.select(1)
+  turtle.transferTo(10, num)
+  turtle.select(1)
+  for j=1,num do
+    i.fillContainer("milk", 6)
+    r.cookFood(num, 1)
+    t.dropTempChest()
+  end
+  t.emptyExtras()
+  t.pickUp({slot})
+  t.deliver(ingOrMain)
 end
 
 r.molasses = function(num, slot, ingOrMain)
@@ -288,6 +434,51 @@ r.oliveOil = function(num, slot, ingOrMain)
   turtle.select(slot)
   turtle.transferTo(slot, num)
   turtle.select(1)
+  t.deliver(ingOrMain)
+end
+
+r.pancakes = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making pancakes")
+  r.sugar(num, 5, "ing")
+  i.get("egg", num, 10)
+  i.get("wheat", num, 9)
+  for j=1,num do
+    i.fillContainer("milk", 6)
+    r.cookFood()
+    t.dropTempChest()
+  end
+  t.pickUp()
+  t.deliver(ingOrMain)
+end
+
+r.paprika = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "ing"
+  rednet.send(r.SERVER, "Making Paprika")
+  i.get("chile pepper", num, 5)
+  i.get("mortarAndPestle", 1, 6)
+  r.cookFood(num, 1)
+  t.emptyExtras(2)
+  turtle.select(1)
+  turtle.transferTo(slot)
+  turtle.select(1)
+  t.deliver(ingOrMain)
+end
+
+r.pepperoni = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "ing"
+  rednet.send(r.SERVER, "Making Pepperoni")
+  r.paprika(num, 9, "ing")
+  i.get("raw beef", num, 5)
+  i.get("raw porkchop", num, 6)
+  i.get("chile pepper", num, 10)
+  r.cookFood(num, slot)
   t.deliver(ingOrMain)
 end
 
@@ -423,6 +614,29 @@ r.turtleSoup = function(num, slot, ingOrMain)
   t.emptyExtras()
   t.pickUp()
   t.deliver(ingOrMain, num)
+end
+
+r.waterBottle = function(num, slot, ingOrMain)
+  num = num or 1
+  slot = slot or 1
+  ingOrMain = ingOrMain or "main"
+  rednet.send(r.SERVER, "Making Water Bottle")
+  r.glass(num * 3, 1, "ing")
+  print("finished glass")
+  turtle.select(1)
+  turtle.transferTo(5, num)
+  turtle.select(1)
+  turtle.transferTo(7, num)
+  turtle.select(1)
+  turtle.transferTo(10, num)
+  turtle.select(1)
+  for j=1,num do
+    i.fillContainer("water", 6)
+    r.cookFood(num)
+    t.dropTempChest()
+  end
+  t.pickUp({slot})
+  t.deliver(ingOrMain)
 end
 
 r.whippingCream = function(num, slot)

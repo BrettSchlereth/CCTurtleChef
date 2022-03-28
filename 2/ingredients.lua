@@ -12,7 +12,8 @@ local i = {}
 
 i.List = {"raw chicken", "turtle", "raw beef", "raw porkchop", "tomato", "soybeans",
 "wheat", "storage drawer", "egg", "sugar cane", "bell pepper", "olive", "fig", "cocoa beans",
-"date", "water bottle", "vanilla", "lemon", "chile pepper", "sweet potato", "potato"}
+"date", "water bottle", "vanilla", "lemon", "chile pepper", "sweet potato", "potato", "lettuce",
+"cucumber", "spinach", "hops", "sand", "iron"}
 
 i["blastFurnaceInput"] = {1, -7, -2, 3}
 i["blastFurnaceOutput"] = {0, -7, -2, 3}
@@ -23,6 +24,7 @@ i["food press"] = {3, -7, 0, 3}
 i["FurnaceInput"] = {1, -7, -1, 3}
 i["FurnaceOutput"] = {0, -7, -1, 3}
 i["milk"] = {0, -7, 1, 3}
+i["mortarAndPestle"] = {2, -7, 0, 3}
 i["pan"] = {2, -7, 1, 3}
 i["water"] = {0, -7, 2, 3}
 
@@ -33,7 +35,7 @@ i.get = function(ing, num, slot)
     print("ingredient name needed")
   end
   message = "Getting " .. ing
-  rednet.send(5, message)
+  rednet.send(SERVER, message)
   --print("getting", ing)
   t.moveTo(i.getCoordinates(ing))
   if (turtle.getItemCount(slot) == 0) then

@@ -37,6 +37,8 @@ function findfunction(x)
   end
 end
 
+--r.milkBottle(1, 1, "main")
+
 rednet.open("left") --enable modem on the right side of the PC
 turtle.refuel()
 print("fuel level", turtle.getFuelLevel())

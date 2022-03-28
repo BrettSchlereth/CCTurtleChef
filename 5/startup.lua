@@ -1,9 +1,9 @@
 
 
-recipeList = {{"Hamburger", hamburger, 64}, {"Cheeseburger", 'cheeseburger', 64}, {"French Fries", 'frenchFries', 64},
+recipeList = {{"Fried Egg", 'friedEgg', 64}, {"Egg Sandwich", 'eggSandwich', 32}, {"Pancakes x3", 'pancakes', 16}, {"Grilled Cheese", 'grilledCheese', 64}, {"Hamburger", hamburger, 64}, {"Cheeseburger", 'cheeseburger', 64}, {"French Fries", 'frenchFries', 64},
  {"Sweet Potato Fries", sweetPotatoFries, 64}, {"Potato Chips", 'potatoChips', 64}, {"Pizza", pizza, 64}, {"Cheese Pizza", 'cheesePizza', 64},
-{"Supreme Pizza", supremePizza, 64}, {"Bredd", 'bread', 64}, {"Baked Sweet Potato", 'bakedSweetPotato', 64},
- {"Figgy Pudding", 'figgyPudding', 64}, {"Doughnut", 'doughnut', 64}, {"Chocolate Bar x8", 'chocolate', 8}, {"Turtle Soup", turtleSoup, 9}}
+{"Supreme Pizza", supremePizza, 64}, {"Chicken and Dumplings", 'chickenAndDumplings', 64}, {"Bredd", 'bread', 64}, {"Cucumber Salad", 'cucumberSalad', 64}, {"Baked Sweet Potato", 'bakedSweetPotato', 64},
+ {"Figgy Pudding", 'figgyPudding', 64}, {"Chocolate Ice Cream", 'chocolateIceCream', 16}, {"Doughnut", 'doughnut', 64}, {"Chocolate Bar x8", 'chocolate', 8}, {"Turtle Soup", turtleSoup, 9}}
 
 function checkOrder(order)
   foodid, foodnum = parseOrder(order)
@@ -30,10 +30,17 @@ function printMenu()
   monitor.clear()
   monitor.setCursorPos(1, 1)
   print("TYPE THE CORRESPONDING NUMBER FOR THE FOOD YOU WANT, FOLLOWED BY THE QUANTITY i.e. '4 2'")
+  col = 1
+  row = 2
   for j=1,table.getn(recipeList) do
     monitor.write(tostring(j) .. ".")
     monitor.write(recipeList[j][1])
-    monitor.setCursorPos(1, j + 1)
+    monitor.setCursorPos(col, row)
+    row = row + 1
+    if (row > 19) then
+      col = 24
+      row = 1
+    end
   end
 end
 

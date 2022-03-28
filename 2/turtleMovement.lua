@@ -1,4 +1,5 @@
 local t = {}
+SERVER = 1
 
 t.loadLocation = function()
   file = io.open("coordinates.lua", "r+")
@@ -183,7 +184,7 @@ t.deliver = function(ingOrMain, num)
     turtle.select(1)
     t.emptyExtras()
     t.goHome()
-    rednet.send(5, "order complete")
+    rednet.send(SERVER, "order complete")
   end
 end
 
