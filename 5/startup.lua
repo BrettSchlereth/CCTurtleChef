@@ -1,9 +1,9 @@
 
 
-recipeList = {{"Fried Egg", 'friedEgg', 64}, {"Egg Sandwich", 'eggSandwich', 32}, {"Pancakes x3", 'pancakes', 16}, {"Grilled Cheese", 'grilledCheese', 64}, {"Hamburger", hamburger, 64}, {"Cheeseburger", 'cheeseburger', 64}, {"French Fries", 'frenchFries', 64},
- {"Sweet Potato Fries", sweetPotatoFries, 64}, {"Potato Chips", 'potatoChips', 64}, {"Pizza", pizza, 64}, {"Cheese Pizza", 'cheesePizza', 64},
-{"Supreme Pizza", supremePizza, 64}, {"Chicken and Dumplings", 'chickenAndDumplings', 64}, {"Bredd", 'bread', 64}, {"Cucumber Salad", 'cucumberSalad', 64}, {"Baked Sweet Potato", 'bakedSweetPotato', 64},
- {"Figgy Pudding", 'figgyPudding', 64}, {"Chocolate Ice Cream", 'chocolateIceCream', 16}, {"Doughnut", 'doughnut', 64}, {"Chocolate Bar x8", 'chocolate', 8}, {"Turtle Soup", turtleSoup, 9}}
+recipeList = {{"Fried Egg", 'friedEgg', 64}, {"Scrambled Eggs", 'scrambledEggs'}, {"Buttered Toast", 'butteredToast'}, {"Egg Sandwich", 'eggSandwich', 32}, {"Pancakes x3", 'pancakes', 16}, {"Grilled Cheese", 'grilledCheese', 64}, {"Hamburger", hamburger, 64}, {"Cheeseburger", 'cheeseburger', 64}, {"French Fries", 'frenchFries', 64},
+ {"Onion rings", 'onionRings', 64}, {"Sweet Potato Fries", sweetPotatoFries, 64}, {"Potato Chips", 'potatoChips', 64}, {"Pizza", pizza, 64}, {"Cheese Pizza", 'cheesePizza', 64},
+{"Supreme Pizza", supremePizza, 64}, {"Chicken and Dumplings", 'chickenAndDumplings', 64}, {"Leek Soup", 'leekSoup'}, {"Bredd", 'bread', 64}, {"Cucumber Salad", 'cucumberSalad', 64}, {"Baked Sweet Potato", 'bakedSweetPotato', 64},
+ {"Figgy Pudding", 'figgyPudding', 64}, {"Brownies", 'brownies'}, {"Chocolate Ice Cream", 'chocolateIceCream', 16}, {"Doughnut", 'doughnut', 64}, {"Chocolate Bar x8", 'chocolate', 8}, {"Turtle Soup", turtleSoup, 9}}
 
 function checkOrder(order)
   foodid, foodnum = parseOrder(order)

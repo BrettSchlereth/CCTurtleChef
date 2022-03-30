@@ -13,7 +13,8 @@ local i = {}
 i.List = {"raw chicken", "turtle", "raw beef", "raw porkchop", "tomato", "soybeans",
 "wheat", "storage drawer", "egg", "sugar cane", "bell pepper", "olive", "fig", "cocoa beans",
 "date", "water bottle", "vanilla", "lemon", "chile pepper", "sweet potato", "potato", "lettuce",
-"cucumber", "spinach", "hops", "sand", "iron"}
+"cucumber", "spinach", "hops", "sand", "iron", "glass bottle", "milk bottle", "chocolate",
+"onion", "leek"}
 
 i["blastFurnaceInput"] = {1, -7, -2, 3}
 i["blastFurnaceOutput"] = {0, -7, -2, 3}
@@ -21,6 +22,7 @@ i["bowl"] = {3, -7, 2, 3}
 i["bucket"] = {2, -7, 2, 3}
 i["cooking pot"] = {3, -7, 1, 3}
 i["food press"] = {3, -7, 0, 3}
+i["fridge"] = {1, -7, 0, 3}
 i["FurnaceInput"] = {1, -7, -1, 3}
 i["FurnaceOutput"] = {0, -7, -1, 3}
 i["milk"] = {0, -7, 1, 3}
@@ -43,6 +45,11 @@ i.get = function(ing, num, slot)
     turtle.suck(num)
     turtle.select(1)
   end
+  if (turtle.getItemCount(slot) < num) then
+    print("not enough ", ing)
+    return false
+  end
+  return true
 end
 
 i.getCoordinates = function(name)

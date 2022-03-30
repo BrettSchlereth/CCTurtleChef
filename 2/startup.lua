@@ -37,7 +37,10 @@ function findfunction(x)
   end
 end
 
---r.milkBottle(1, 1, "main")
+--r.milkBottle(1, 1, "ing")
+--r.pepperoni(1, 1, "main")
+--r.onionRings(2, 1, "main")
+--r.leekSoup(2, 1, "main")
 
 rednet.open("left") --enable modem on the right side of the PC
 turtle.refuel()
